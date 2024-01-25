@@ -1,14 +1,10 @@
 title: The Wonders of Async Asset Streaming
-author:
-  name: Santiago Bernardino
-  email: santibberna@gmail.com
 
 # The `>` after `description:` means to ignore line-breaks until next key.
 # If you want to omit the line-break after the end of text, use `>-` instead.
 description: >
-  A blog post dedicated to my adventures working on system to asynchronously load resources for a game engine
-
-# Build settings
+  A blog post dedicated to my adventures working on system to asynchronously load resources for a game engine.
+  Santiago Bernadino - Gmail: santibberna@gmail.com
 
 # If you clone the Minima repo and build locally, use this setting.
 theme: minima
