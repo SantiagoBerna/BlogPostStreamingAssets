@@ -1,5 +1,9 @@
-## Introduction
+---
+layout: home
+title: Async Asset Streaming
+---
 
+## Introduction
 In most AAA game titles nowadays, we have seen a rising trend to creating bigger worlds with more content and even more detail.
 
 Most notably, the open-world genre has become very prevalent in the gaming industry during the last 10 years and nowadays game download sizes are getting to the 100GB+ mark. This requires the management of huge amount of memory to squeeze as much performance from the hardware.
