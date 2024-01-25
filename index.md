@@ -3,6 +3,10 @@ layout: home
 title: Async Asset Streaming
 ---
 
+<video width="320" height="240" controls>
+  <source src="assets/media/WalkingAround.mp4" type="video/mp4">
+</video>
+
 ## Introduction
 In most AAA game titles nowadays, we have seen a rising trend to creating bigger worlds with more content and even more detail.
 
@@ -454,10 +458,12 @@ else {
 
 And here are some videos of it in action:
 
-<video width="480" height="320" controls>
+<video width="320" height="240" controls>
   <source src="assets/media/ChunkLoadingDemo.mp4" type="video/mp4">
-</video> <video width="480" height="320" controls>
+</video> <video width="320" height="240" controls>
   <source src="assets/media/LoadingVillage.mp4" type="video/mp4">
+</video> <video width="320" height="240" controls>
+  <source src="assets/media/LoadingBistro.mp4" type="video/mp4">
 </video>
 
 ## Conclusion
