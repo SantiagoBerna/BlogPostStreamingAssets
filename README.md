@@ -20,7 +20,7 @@ My name is Santiago Bernardino. During my time at BUAS - Game Programming course
 
 For six weeks, I researched and created a basic showcase and application of world streaming. I delved more into the topics of Multithreading and Partitioning. I did not work with LODs, mostly due to them being especially complex and time consuming.
 
-I will also log here my main implemention steps in C++ for creating an asynchronous asset manager and using it to create a demo that utilizes world streaming to render a large and heavy scene.
+I will also log here my main implementation steps in C++ for creating an asynchronous asset manager and using it to create a demo that utilizes world streaming to render a large and heavy scene.
 
 Part of my project is present in the LibStream library, my own resource management library written in C++ for this very project. Then, I used the Bee Engine for developing the demo, which is an in-house small engine for students, that utilizes the entt library and OpenGL as a rendering backend.
 
@@ -192,7 +192,7 @@ The simplest way I found to implement resource storage is to store a ``HashMap``
 - Takes care of making sure there is only one copy of a resource.
 - Has the best lookup speed for an element: O(1)
 
-However, we will not be storing the resources themselves in this map. First of all, we can't store resources of the same type in the same container, unless we use an inheritance hierarchy and ``dynamic_cast`` for ensuring proper type safety. 
+However, we will not be storing the resources themselves in this map. First of all, we can't store resources of different types in the same container, unless we use an inheritance hierarchy and ``dynamic_cast`` for ensuring proper type safety. 
 
 Aso take in mind that this system is asynchronous and we need to keep track of which resources are loading, loaded and unloaded. If we request two times for the same resource, we cannot send two tasks and load the resource twice, since it would break our initial requirement of unique assets. To solve this, I used a double indirection setup.
 
@@ -348,7 +348,7 @@ By using a ThreadPool, it is our task to design small and self-contained tasks i
 
 One problem, however, is that the initial loading process in the Bee Engine used ``tinygltf`` and the GLTF format to load a scene. The act of loading an entire scene took a lot of time and was coded as a single process. This means we cannot load a scene over multiple threads, even though it is conceivable that you can separate a model into textures, primitives, nodes, etc...
 
-To solve this, I converted my input gltf files into a set of files that corresponded to seperate primitives, textures, materials and a main scene file. In hindsight, I probably could have created a specialized gltf parser to do this without a preprocessing step of splitting into files.
+To solve this, I converted my input gltf files into a set of files that corresponded to separate primitives, textures, materials and a main scene file. In hindsight, I probably could have created a specialized gltf parser to do this without a preprocessing step of splitting into files.
 
 This process is often time called importing, and game engines do it all the time to convert distribution formats into more specialized ones for runtime.
 
@@ -356,7 +356,7 @@ This allows each thread to work on a single file, which simplifies and speeds up
 
 ### Initialization
 
-With all these small pieces, it is finaly possible to create a plausible use case.
+With all these small pieces, it is finally possible to create a plausible use case.
 
 First, we create the StreamingManager and all of it's necessary components:
 ```c++
