@@ -3,7 +3,7 @@ layout: home
 title: Async Asset Streaming
 ---
 
-<video width="320" height="240" controls>
+<video width="100%" height="100%" controls>
   <source src="assets/media/WalkingAround.mp4" type="video/mp4">
 </video>
 
@@ -458,11 +458,11 @@ else {
 
 And here are some videos of it in action:
 
-<video width="320" height="240" controls>
+<video width="100%" height="100%" controls>
   <source src="assets/media/ChunkLoadingDemo.mp4" type="video/mp4">
-</video> <video width="320" height="240" controls>
+</video> <video width="100%" height="100%" controls>
   <source src="assets/media/LoadingVillage.mp4" type="video/mp4">
-</video> <video width="320" height="240" controls>
+</video> <video width="100%" height="100%" controls>
   <source src="assets/media/LoadingBistro.mp4" type="video/mp4">
 </video>
 
