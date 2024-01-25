@@ -14,7 +14,7 @@ World streaming is the process where we only have the necessary section of a wor
 
 ### Who am I?
 
-My name is Santiago Bernardino. During my time at BUAS - Game Programming course, I tasked myself with implementing this concept for a self study block. For two months, I researched and created a basic showcase and application of world streaming. I delved more into the topics of Multithreading and Partitioning. I did not work with LODs, mostly due to them being especially complex and time consuming.
+My name is Santiago Bernardino. During my time at BUAS - Game Programming course, I tasked myself with implementing this concept for a self study block. For six weeks, I researched and created a basic showcase and application of world streaming. I delved more into the topics of Multithreading and Partitioning. I did not work with LODs, mostly due to them being especially complex and time consuming.
 
 I will also log here my main implementing steps in C++ for creating an asynchronous asset manager and using it to create a demo that utilizes world streaming to render a large and heavy scene.
 
@@ -168,4 +168,168 @@ ls::ThreadPoolScheduler::~ThreadPoolScheduler()
 Also don't forget to join all the threads as well.
 
 ## Resource Management - With great power, comes great responsibility.
+
+Creating a universal Asset Manager is very hard. There is a reason there aren't many libraries to handle resource management for you, since it is extremely dependent on your engine's capabilities and requirements.
+
+I still tried to create a generalized solution that boiled resource management to it's simplest terms (and still ended up being reasonably complex).
+
+### Part 1 - The game plan
+
+The Libstream Library mainly works through the `Streaming Manager`. Let's walk through the requirements of this system:
+
+- Needs to be able to accept a request to a resource and return some sort of handle to the caller.
+- Must schedule and eventually collect the results from loading a resource on another thread without blocking.
+- It must ensure that an asset is loaded only once in memory.
+- Functionality for unloading unused Assets.
+
+This looks like a small list, but deceptively so. Let us start with the simplest parts first.
+
+### Part 2 - Storing the assets
+
+The simplest way I found to implement this aspect is to store a ``HashMap`` with all of the resources indexed by a ``string`` (does not necessarily need to be a path, could also be a GUID).
+
+- Takes care of making sure there is only one copy of a resource.
+- Has the best lookup speed for an element: O(1)
+
+Even though it seems like this is the best choice, it already limits us to using assets that can be uniquely identified through a string (which you can assume is true most of the time).
+
+However, we will not be storing the resources themselves in this map. First of all, we can't store resources of the same type in the same container, unless we use an inheritance hierarchy and ``dynamic_cast`` for ensuring proper type safety. 
+
+We also need to take in mind that this system is asynchronous and we need to keep track of which resources are loading, loaded and unloaded. If we request two times for the same resource, we cannot send two tasks and load the resource twice, since it would break our initial requirement of unique assets. To solve this, I used a double indirection setup.
+
+//extra level of indirection
+
+The map stores a pointer to a `Resource Entry`, which can contain a pointer to a loaded Resource.
+
+For those familiar with shared pointers, the `Resource Entry` acts like a control block for the resource, controlling access to it and serving to mark if an asset is loaded or unloaded. 
+
+It must contain an optional pointer to the actual resource it refers to, a mutex for controlling concurrent access to changing the state of the entry and an enum that indicates the many states a resource can be in. Translating to C++:
+
+```c++
+class ResourceEntry {
+public:
+
+	ResourceEntry(const std::string_view& path, std::type_index type)
+		: origin_path(path), type(type) {}
+
+
+	enum class ResourceState {
+		UNLOADED,
+		LOADING,
+		READY,
+		FAILED,
+	};
+
+private:
+    //Retrieval
+    std::shared_ptr<void> retrieve() const;
+
+	mutable std::mutex mutex; // must be mutable to lock in getter
+	ResourceState state = ResourceState::UNLOADED;
+
+    //Resource Metadata
+    std::type_index type;
+	std::string origin_path;
+	size_t memory_consumption = 0;
+
+    //Optional Handle to the actual resource
+	std::shared_ptr<void> resource = nullptr;
+};
+```
+
+A keen eye will have noticed 3 things: 
+- I have added an extra resource state for in case loading fails.
+- I store extra metadata related to the asset. This comes in handy quite a lot of times, especially for debugging.
+- The optional reference to a possibly loaded asset is in the form of `std::shared_ptr void`
+
+Shared pointer void is a very smart use of type deletion to avoid template / inheritance hell. It acts like a shared pointer, so it deallocates itself once no more references remain, but we can store any data type inside it. To use it though, we must `std::static_pointer_cast` it back to the correct type. Storing the type_index of the stored handle allows for enforcing type-checking when we do the cast by comparing it with the type we want to cast to.
+
+### Part 3 - Loaders and Resource Types
+
+Another step I have implemented for allowing decoupling the library from the specifics of loading resources is to bind a function to the `StreamingManager` that will act upon all resources of the same type:
+
+```c++
+std::shared_ptr<void> LoadImageAsset(ls::RequestCommands& commands, const std::string_view& path) {
+    //logic for loading an image from file
+    return std::make_shared<Image>(width, height, std::move(image_data));
+}
+
+//...
+
+StreamManager.RegisterAssetLoader<Image>(LoadImageAsset, "Image");
+```
+
+This is necessary for the `StreamingManager` to keep track of all the resource types and how to load them. This loading function must always have the same signature and takes a path and `RequestCommands` as parameters. I understand taking a path, but what are request commands?
+
+Let us look at another example:
+
+```c++
+std::shared_ptr<void> bee::LoadMaterialAsset(ls::RequestCommands& resources, const std::string_view& path)
+{
+    // Get paths of all involved textures in the materials
+
+    base_texture = resources.RequestDependency<Image>(base_path);
+    normal_texture = resources.RequestDependency<Image>(normal_path);
+    metallic_texture = resources.RequestDependency<Image>(metallic_path);
+
+    //Return material asset
+}
+```
+
+A material asset is essentially a collection of images that are arranged per their function in rendering. It is actually very useful to seperate both into different files, so usually a material asset will contain the paths to the textures it references (think of .mtl file for the OBJ format).
+
+The `RequestCommands` are a parameter that allow the request of dependencies or references that a resource will need. More concretely, it simply queues up all the textures the material depends on when the material is requested for loading. 
+
+It also ensures proper propagation of the loading type: if you request a synchronous load, all the dependencies will also be loaded synchronously.
+
+### Part 4 - Request Logic
+
+We are now ready to start asking our worker threads to load assets for us.
+The constructor of `StreamingManager` looks as follows:
+
+```c++
+StreamingManager(ILoadingScheduler& scheduler, IDebugLogger* debug_logger);
+```
+
+The ``ILoadingScheduler`` is an interface I created for the threadpool, which can be expands, however the default one I have implemented in the project `ThreadPoolScheduler` is enough. It also accepts an interface to a debug logger which is optional for printing some debug messages.
+
+To request an Asset we call `StreamingManager::RequestAsset<T>(path, load_type)` which returns a structure of type `ResourceHandle<T>`.
+The resource handles returned essentially contain a shared reference to the resource entry of the asset, as well as functionality for upcasting it to the correct type:
+
+```c++
+class BasicResourceHandle {
+protected:
+    BasicResourceHandle(std::shared_ptr<ResourceEntry> entry_ref)
+     : ref(entry_ref) {}
+    
+	virtual ~BasicResourceHandle() = default;
+
+	std::shared_ptr<ResourceEntry> ref = nullptr;
+
+    //Returns the resource pointer if the resource is loaded, nullptr otherwise
+	std::shared_ptr<void> retrieve() const { return ref->retrieve(); }
+};
+
+
+template<typename T>
+class ResourceHandle : public BasicResourceHandle {
+public:
+	ResourceHandle() : BasicResourceHandle(nullptr) {};
+
+	ResourceHandle(std::shared_ptr<ResourceEntry> entry_ref) :
+		BasicResourceHandle(entry_ref) {}
+
+	std::shared_ptr<T> Retrieve() const {
+		return std::static_pointer_cast<T>(BasicResourceHandle::retrieve());
+	};
+};
+```
+
+Then, the loading logic we require to recover assets we have loaded  and avoid loading an asset twice is as follows:
+
+//Show flowchart
+
+Note that, everytime an entry is accessed or modified, it must be locked to not cause any race conditions, since it is the point where the main thread and a loading thread will share memory. If you are implementing something similar, keep this in mind.
+
+### Part 5 Unloading and freeing resources
 
