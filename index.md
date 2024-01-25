@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 In most AAA game titles nowadays, we have seen a rising trend to creating bigger worlds with more content and even more detail.
 
@@ -24,7 +24,7 @@ I will also log here my main implementation steps in C++ for creating an asynchr
 
 Part of my project is present in the LibStream library, my own resource management library written in C++ for this very project. Then, I used the Bee Engine for developing the demo, which is an in-house small engine for students, that utilizes the entt library and OpenGL as a rendering backend.
 
-# Multithreading - The Good, the Bad and the Ugly
+## Multithreading - The Good, the Bad and the Ugly
 
 ### What is multi-threading?
 
@@ -168,7 +168,7 @@ ls::ThreadPoolScheduler::~ThreadPoolScheduler()
 
 Also don't forget to join all the threads as well.
 
-# Resource Management - With great power, comes great responsibility.
+## Resource Management - With great power, comes great responsibility.
 
 Creating a universal Asset Manager is very hard. There is a reason there aren't many libraries to handle resource management for you, since it is extremely dependent on your engine's capabilities and requirements.
 
@@ -338,7 +338,7 @@ Freeing a specific resource is as easy as accessing the associated entry, resett
 
 I also added slightly more advanced functionality like unloading a resource if it was not used within a time frame or if there are no existing handles, which are very trivial to implement using a timer or shared pointer reference counts, respectively.
 
-# Simple Chunk loading demo - In Action!
+## Simple Chunk loading demo - In Action!
 
 ### Runtime formats
 
@@ -456,7 +456,7 @@ And here are some videos of it in action:
   <source src="assets/media/LoadingVillage.mp4" type="video/mp4">
 </video>
 
-# Conclusion
+## Conclusion
 
 Obviously, the demo I have just showcased is very minimal and needs to be worked on to actually be able to work as an open-world game. However, all the technical steps are there.
 
