@@ -476,4 +476,4 @@ My implementation is not unique or perfect either, so if you are trying to do so
 
 That is it for today. Hope you had fun reading!
 
-![Buas Logo](/assets/media/Logo%20BUas_RGB.jpg)
+<img src="assets/media/Logo BUas_RGB.jpg" width="200"/>
