@@ -184,7 +184,7 @@ I still tried to create a generalized solution that simplified resource manageme
 
 ### Part 1 - The game plan
 
-The Libstream Library mainly works through the `Streaming Manager`. Step-by-step, let's walk through the requirements of this system:
+The Libstream Library mainly works through the `Streaming Manager` inside the `ls` namespace. Step-by-step, let's walk through the requirements of this system:
 
 - It needs to be able to accept a request to a resource and return some sort of handle to the caller.
 - It must schedule and eventually collect the results from loading a resource on another thread without blocking.
