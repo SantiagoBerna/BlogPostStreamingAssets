@@ -105,7 +105,7 @@ ls::ThreadPoolScheduler::ThreadPoolScheduler(size_t worker_thread_count)
 }
 ```
 
-The worker_loop() function that we pass to the thread's constructor is the main() function it will execute during it's lifetime.
+The worker_loop() function that we pass to the thread's constructor is the main() function it will execute during its lifetime.
 
 ```c++
 
@@ -180,7 +180,7 @@ Also don't forget to join all the threads as well.
 
 Creating a universal Asset Manager is very hard. There is a reason there aren't many libraries to handle resource management for you, since it is extremely dependent on your engine's capabilities and requirements.
 
-I still tried to create a generalized solution that simplified resource management to it's simplest terms (and still ended up being reasonably complex).
+I still tried to create a generalized solution that simplified resource management to its simplest terms (and still ended up being reasonably complex).
 
 ### Part 1 - The game plan
 
@@ -202,7 +202,7 @@ The simplest way I found to implement resource storage is to store a ``HashMap``
 
 However, we will not be storing the resources themselves in this map. First of all, we can't store resources of different types in the same container, unless we use an inheritance hierarchy and ``dynamic_cast`` for ensuring proper type safety. 
 
-Aso take in mind that this system is asynchronous and we need to keep track of which resources are loading, loaded and unloaded. If we request two times for the same resource, we cannot send two tasks and load the resource twice, since it would break our initial requirement of unique assets. To solve this, I used a double indirection setup.
+Also take in mind that this system is asynchronous and we need to keep track of which resources are loading, loaded and unloaded. If we request two times for the same resource, we cannot send two tasks and load the resource twice, since it would break our initial requirement of unique assets. To solve this, I used a double indirection setup.
 
 ![Representation of resource storage](/assets/media/extra_indirection.png)
 
@@ -342,7 +342,7 @@ Note that, everytime an entry is accessed or modified, it must be locked to not 
 
 ### Part 5 Unloading and freeing resources
 
-Freeing a specific resource is as easy as accessing the associated entry, resetting the resource reference back to `nullptr` and setting it's state back to ``UNLOADED``.
+Freeing a specific resource is as easy as accessing the associated entry, resetting the resource reference back to `nullptr` and setting its state back to ``UNLOADED``.
 
 I also added slightly more advanced functionality like unloading a resource if it was not used within a time frame or if there are no existing handles, which are very trivial to implement using a timer or shared pointer reference counts, respectively.
 
@@ -366,7 +366,7 @@ This allows each thread to work on a single file, which simplifies and speeds up
 
 With all these small pieces, it is finally possible to create a plausible use case.
 
-First, we create the StreamingManager and all of it's necessary components:
+First, we create the StreamingManager and all of its necessary components:
 ```c++
 log = std::make_unique<StdLogger>();
 scheduler = std::make_unique<ls::ThreadPoolScheduler>(std::thread::hardware_concurrency());
