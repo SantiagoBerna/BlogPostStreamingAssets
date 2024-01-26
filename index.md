@@ -433,7 +433,7 @@ Then we just position the meshes on a grid based on the AABB of the mesh (which 
 
 Finally, for every frame, the engine must do these steps:
 - Check which chunk the player is in and compare it against the previous frame.
-- If yes, we must unmark every mesh that was in the previous chunks around the player and mark the new ones.
+- If the player has moved to another chunk, we must unmark every mesh that was in the previous chunks around the player and mark the new ones.
 - Render all the marked meshes that are loaded. For meshes that are not loaded, we must queue them to load using `StreamingManager.Reload(handle)`.
 - Deallocate all the resources that were not used in the last 3 seconds.
 
