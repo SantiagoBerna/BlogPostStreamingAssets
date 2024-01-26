@@ -24,7 +24,7 @@ Normally, a radius around the player is loaded, loading new objects as they trav
 
 ### Who am I?
 
-My name is Santiago Bernardino. During my time at BUAS - Game Programming course, I tasked myself with implementing this concept for a self study block.
+My name is Santiago Bernardino. I am a 2nd year student of the BUAS Game Programming course and I tasked myself with implementing this concept for a self study block.
 
 For six weeks, I researched and created a basic showcase and application of world streaming. I delved more into the topics of Multithreading and Partitioning. I did not work with LODs, mostly due to them being especially complex and time consuming.
 
@@ -475,3 +475,5 @@ By using the power of multithreading, we can achieve a 4x to 5x increase in load
 My implementation is not unique or perfect either, so if you are trying to do something like this yourself and would like to comment / need guidance on certain topics, I would be glad to do so. Just contact me on my gmail.
 
 That is it for today. Hope you had fun reading!
+
+![Buas Logo](/assets/media/Logo%20BUas_RGB.jpg)
