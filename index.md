@@ -1,11 +1,26 @@
 ---
 layout: home
-title: Home
-list-title: My Works
+title: My Work
 ---
 
-## Hello There!
+<!-- Image -->
 
-My name is Santiago and I am (currently) a **Y2 Game Programming Student** at BUAS. **I specialize in Engine Programming, but I am also very familiar Graphics**. Currently working with **C++**, but also studying **Rust** in my free time. 
+<div style="position: relative; width: 100%;">
+  <img src="assets/Banner.png" alt="Banner" style="width: 100%; height: auto; display: block;">
 
-Here you can find many interesting articles I have written about my work. **Want to reach out?** You can contact me through **GitHub**, **Gmail** or **LinkedIn**, which you can find in **About Me** or at the **bottom of this page**.
+  <div style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    text-shadow: 5px 5px 4px rgba(0, 0, 0, 1.0);
+    font-size: 30px;
+    "> Santiago Bernardino - Game Engine Programmer
+  </div>
+</div>
+
+<br>
