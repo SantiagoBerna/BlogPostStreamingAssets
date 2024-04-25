@@ -1,18 +1,14 @@
 ---
 layout: post
 title: Async Asset Streaming
-excerpt_separator: <!--more-->
+preview_video: assets/videos/WalkingAround.mp4
 ---
 
-World streaming is the process where we only have the necessary section of a world in memory at all times, discarding the rest. 
-
-Normally, a radius around the player is loaded, loading new objects as they travel and unloading the ones they get far from. Multithreading is used to make the loading process happen in the background (possibly) over multiple frames and LODs are used to optimize the rendering of far away objects.
+World streaming is the process where we only have the necessary section of a world in memory at all times, discarding the rest. This post details how I went about implementing this feature on my own.
 
 <video width="100%" height="100%" controls>
   <source src="../assets/videos/WalkingAround.mp4" type="video/mp4">
 </video>
-
-<!--more-->
 
 ## Introduction
 In most AAA game titles nowadays, we have seen a rising trend to creating bigger worlds with more content and even more detail.
@@ -24,6 +20,8 @@ There are three main techniques game developers use to achieving what is commonl
 - Multithreading 
 - Partitioning/Chunking
 - Levels of Detail (LODs)
+
+Normally, a radius around the player is loaded, loading new objects as they travel and unloading the ones they get far from. Multithreading is used to make the loading process happen in the background (possibly) over multiple frames and LODs are used to optimize the rendering of far away objects.
 
 ### Who am I?
 

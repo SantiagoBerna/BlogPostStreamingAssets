@@ -17,7 +17,7 @@ collections:
   articles:
     output: true
 
-exclude:
+baseurl: ""
 
 minima:
   skin: dark

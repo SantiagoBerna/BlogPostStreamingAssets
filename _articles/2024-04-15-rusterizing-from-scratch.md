@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Rusterizing from Scratch - Vertex Transformations
-excerpt_separator: <!--more-->
 ---
 
 The Rusterizer is a masterclass that happens every year here at BUAS, where we use Rust to implement a simple software rasterizer. This is the result of my work during the masterclass, as well as some additional features I have added in the following weeks.
