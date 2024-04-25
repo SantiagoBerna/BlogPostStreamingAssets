@@ -4,7 +4,7 @@ title: Async Asset Streaming
 preview_video: ./assets/videos/WalkingAround.mp4
 ---
 
-World streaming is the process where we only have the necessary section of a world in memory at all times, discarding the rest. This post details how I went about implementing this feature on my own.
+World streaming is the process where we only have the necessary section of a world in memory at all times, discarding the rest. This post details how I went about implementing this feature on my own...
 
 <video width="100%" height="100%" controls>
   <source src="../assets/videos/WalkingAround.mp4" type="video/mp4">
