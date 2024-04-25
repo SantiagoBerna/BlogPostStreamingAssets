@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Async Asset Streaming
-preview_video: assets/videos/WalkingAround.mp4
+preview_video: ./assets/videos/WalkingAround.mp4
 ---
 
 World streaming is the process where we only have the necessary section of a world in memory at all times, discarding the rest. This post details how I went about implementing this feature on my own.
