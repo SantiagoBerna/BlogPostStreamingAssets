@@ -13,6 +13,12 @@ header_pages:
   - about.md
   - index.md
 
+collections:
+  articles:
+    output: true
+
+exclude:
+
 minima:
   skin: dark
   social_links:

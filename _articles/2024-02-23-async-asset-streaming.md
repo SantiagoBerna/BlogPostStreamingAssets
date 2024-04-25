@@ -479,4 +479,4 @@ My implementation is not unique or perfect either, so if you are trying to do so
 
 That is it for today. Hope you had fun reading!
 
-<img src="../assets/Logo BUas_RGB.jpg" width="200"/>
+<img src="../assets/images/Logo BUas_RGB.jpg" width="200"/>
