@@ -17,8 +17,6 @@ collections:
   articles:
     output: true
 
-baseurl: ""
-
 minima:
   skin: dark
   social_links:
