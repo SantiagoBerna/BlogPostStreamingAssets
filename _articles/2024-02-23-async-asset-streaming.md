@@ -10,6 +10,24 @@ World streaming is the process where we only have the necessary section of a wor
   <source src="../assets/videos/WalkingAround.mp4" type="video/mp4">
 </video>
 
+## Table of Contents
+1. [Introduction](#introduction)
+    1. [Who I am](#who-am-i)
+2. [Multithreading Basics](#multithreading---the-good-the-bad-and-the-ugly)
+    1. [What it is](#what-is-multi-threading)
+    2. [Thread Pool](#the-thread-pool)
+1. [Resource Management](#resource-management---with-great-power-comes-great-responsibility)
+    1. [The Plan](#part-1---the-game-plan)
+    2. [Storing Assets](#part-2---storing-the-assets)
+    3. [Loaders](#part-3---loaders-and-resource-types)
+    4. [Requests](#part-4---request-logic)
+    5. [Cleaning Up](#part-5-unloading-and-freeing-resources)
+3. [Chunk Loading](#simple-chunk-loading-demo---in-action)
+    1. [Runtime Formats](#runtime-formats)
+    2. [Initialization](#initialization)
+    3. [Main Algorithm](#update-loop---main-algorithm)
+4. [Conclusion](#conclusion)
+
 ## Introduction
 In most AAA game titles nowadays, we have seen a rising trend to creating bigger worlds with more content and even more detail.
 
