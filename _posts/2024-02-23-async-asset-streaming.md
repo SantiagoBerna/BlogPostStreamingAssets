@@ -9,7 +9,7 @@ World streaming is the process where we only have the necessary section of a wor
 Normally, a radius around the player is loaded, loading new objects as they travel and unloading the ones they get far from. Multithreading is used to make the loading process happen in the background (possibly) over multiple frames and LODs are used to optimize the rendering of far away objects.
 
 <video width="100%" height="100%" controls>
-  <source src="../assets/async-asset-streaming/WalkingAround.mp4" type="video/mp4">
+  <source src="../assets/videos/WalkingAround.mp4" type="video/mp4">
 </video>
 
 <!--more-->
@@ -45,7 +45,7 @@ At a first glance, this seems amazing. Having two cores, for example, can halve 
 
 Not quite. Turns out, it is impossible to evenly divide work between all the cores and a lot of tasks cannot be executed at the same time. A pretty smart guy derived Amdahl's law, which determines the maximum speedup from parallelizing code.
 
-![Amdahl's law graphs](../assets/async-asset-streaming/400px-AmdahlsLaw.svg.png)
+![Amdahl's law graphs](../assets/400px-AmdahlsLaw.svg.png)
 
 A lot of problems also cannot be effectively parallelized because of race conditions, a phenomenon where if one thread is writing to a memory address and another is reading from it at the same time, it is impossible to predict if the value read will be the old, new or a garbled mess.
 
@@ -63,7 +63,7 @@ In order to schedule these loading operations, I used a very common pattern used
 
 A thread pool is a concurrency model composed of a task queue and a set of worker threads. These worker threads are initialized all at once and live for the duration of the thread pool, bypassing a lot of overhead that comes to starting / releasing threads by only doing it once and keeping them alive. 
 
-![Thread pool visualization](../assets/async-asset-streaming/400px-Thread_pool.svg.png)
+![Thread pool visualization](../assets/400px-Thread_pool.svg.png)
 
 These worker threads are continuously sleeping until a task is added to the queue. One thread wakes up, takes the task, executes it and goes back to sleep or takes another task if the queue still has tasks. 
 
@@ -207,7 +207,7 @@ However, we will not be storing the resources themselves in this map. First of a
 
 Also take in mind that this system is asynchronous and we need to keep track of which resources are loading, loaded and unloaded. If we request two times for the same resource, we cannot send two tasks and load the resource twice, since it would break our initial requirement of unique assets. To solve this, I used a double indirection setup.
 
-![Representation of resource storage](../assets/async-asset-streaming/extra_indirection.png)
+![Representation of resource storage](../assets/extra_indirection.png)
 
 The map stores a pointer to a `Resource Entry`, which can contain a pointer to a loaded Resource.
 
@@ -339,7 +339,7 @@ public:
 
 Then, the loading logic we require to recover assets we have loaded  and avoid loading an asset twice is as follows:
 
-![Representation of resource storage](../assets/async-asset-streaming/Flowchart.png)
+![Representation of resource storage](../assets/Flowchart.png)
 
 Note that, everytime an entry is accessed or modified, it must be locked to not cause any race conditions, since it is the point where the main thread and a loading thread will share memory.
 
@@ -462,11 +462,11 @@ else {
 And here are some videos of it in action:
 
 <video width="100%" height="100%" controls>
-  <source src="../assets/async-asset-streaming/ChunkLoadingDemo.mp4" type="video/mp4">
+  <source src="../assets/videos/ChunkLoadingDemo.mp4" type="video/mp4">
 </video> <video width="100%" height="100%" controls>
-  <source src="../assets/async-asset-streaming/LoadingVillage.mp4" type="video/mp4">
+  <source src="../assets/videos/LoadingVillage.mp4" type="video/mp4">
 </video> <video width="100%" height="100%" controls>
-  <source src="../assets/async-asset-streaming/LoadingBistro.mp4" type="video/mp4">
+  <source src="../assets/videos/LoadingBistro.mp4" type="video/mp4">
 </video>
 
 ## Conclusion
@@ -479,4 +479,4 @@ My implementation is not unique or perfect either, so if you are trying to do so
 
 That is it for today. Hope you had fun reading!
 
-<img src="../assets/async-asset-streaming/Logo BUas_RGB.jpg" width="200"/>
+<img src="../assets/Logo BUas_RGB.jpg" width="200"/>
