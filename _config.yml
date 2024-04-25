@@ -7,7 +7,7 @@ description: >
   Game Programming. Portfolio website created by Santiago Bernardino. Consider checking out my work on Github if you have read this far.
   
 remote_theme: jekyll/minima
-
+permalink: /:title:output_ext
 show_excerpts: true
 
 header_pages:

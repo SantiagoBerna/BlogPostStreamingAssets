@@ -1,11 +1,18 @@
 ---
 layout: post
 title: Async Asset Streaming
+excerpt_separator: <!--more-->
 ---
+
+World streaming is the process where we only have the necessary section of a world in memory at all times, discarding the rest. 
+
+Normally, a radius around the player is loaded, loading new objects as they travel and unloading the ones they get far from. Multithreading is used to make the loading process happen in the background (possibly) over multiple frames and LODs are used to optimize the rendering of far away objects.
 
 <video width="100%" height="100%" controls>
   <source src="../assets/async-asset-streaming/WalkingAround.mp4" type="video/mp4">
 </video>
+
+<!--more-->
 
 ## Introduction
 In most AAA game titles nowadays, we have seen a rising trend to creating bigger worlds with more content and even more detail.
@@ -17,10 +24,6 @@ There are three main techniques game developers use to achieving what is commonl
 - Multithreading 
 - Partitioning/Chunking
 - Levels of Detail (LODs)
-
-World streaming is the process where we only have the necessary section of a world in memory at all times, discarding the rest. 
-
-Normally, a radius around the player is loaded, loading new objects as they travel and unloading the ones they get far from. Multithreading is used to make the loading process happen in the background (possibly) over multiple frames and LODs are used to optimize the rendering of far away objects.
 
 ### Who am I?
 
@@ -204,7 +207,7 @@ However, we will not be storing the resources themselves in this map. First of a
 
 Also take in mind that this system is asynchronous and we need to keep track of which resources are loading, loaded and unloaded. If we request two times for the same resource, we cannot send two tasks and load the resource twice, since it would break our initial requirement of unique assets. To solve this, I used a double indirection setup.
 
-![Representation of resource storage](/../assets/async-asset-streaming/extra_indirection.png)
+![Representation of resource storage](../assets/async-asset-streaming/extra_indirection.png)
 
 The map stores a pointer to a `Resource Entry`, which can contain a pointer to a loaded Resource.
 
@@ -336,7 +339,7 @@ public:
 
 Then, the loading logic we require to recover assets we have loaded  and avoid loading an asset twice is as follows:
 
-![Representation of resource storage](/../assets/async-asset-streaming/Flowchart.png)
+![Representation of resource storage](../assets/async-asset-streaming/Flowchart.png)
 
 Note that, everytime an entry is accessed or modified, it must be locked to not cause any race conditions, since it is the point where the main thread and a loading thread will share memory.
 
