@@ -6,7 +6,7 @@ title: My Work
 <!-- Image -->
 
 <div style="position: relative; width: 100%;">
-  <img src="assets/Banner.png" alt="Banner" style="width: 100%; height: auto; display: block;">
+  <img src="assets/images/Banner.png" alt="Banner" style="width: 100%; height: auto; display: block;">
 
   <div style="
     position: absolute;

@@ -9,8 +9,6 @@ description: >
 remote_theme: jekyll/minima
 show_excerpts: true
 
-permalink: :title:output_ext
-
 header_pages:
   - about.md
   - index.md
