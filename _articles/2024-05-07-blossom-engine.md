@@ -21,7 +21,7 @@ I, along with 4 other colleagues, have developed Blossom, a game engine that sup
 In this project, **I was mainly responsible for the tooling of the engine**, which comprised **an editor for procedurally generating landscapes based on density maps** and **packaging and loading levels from a .json file**.
 
 <video width="100%" controls>
-  <source src="./assets/videos/usingEditor.mp4" type="video/mp4">
+  <source src="../assets/videos/usingEditor.mp4" type="video/mp4">
 </video>
 
 Using the editor to place some trees around, based on a density map. A density map is simply a greyscale image that dictates the probability of a prop being placed
